@@ -78,8 +78,8 @@ app.controller('ProfileCtrl', [
             $scope.link = "";
         }
 
-        $scope.incrementUpvotes = function(){
-            $scope.employee.skills.upvotes += 1;
+        $scope.incrementUpvotes = function(skill){
+            skill.upvotes += 1;
         }
 }]);
 
@@ -95,7 +95,6 @@ app.controller('CommentCtrl', [
 
             //First, get the relevant post
             $scope.employee = employees.employees[$stateParams.employeeId];
-            console.log($stateParams.employeeId);
 
             $scope.skillDetail = employees.employees[$stateParams.employeeId].skills[$stateParams.skillId];
 

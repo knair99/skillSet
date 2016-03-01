@@ -45,7 +45,7 @@
         <h1>Profile page</h1>
     </div>
     <div ng-repeat="skill in employee.skills | orderBy:'-upvotes'">
-        <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(post)"></span>
+        <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(skill)"></span>
                 {{skill.upvotes}}
         <span style="font-size:20px; margin-left:10px;">
           <a ng-show="skill.link" href="{{skill.link}}">
