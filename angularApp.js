@@ -103,5 +103,9 @@ app.controller('CommentCtrl', [
             $scope.skillDetail.comments.push( { body: $scope.body, author: 'user', upvotes: 0} );
             $scope.body = "";
         }
+
+        $scope.incrementUpvotes = function(comment){
+            comment.upvotes += 1;
+        }
     }
 ]);
