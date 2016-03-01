@@ -14,8 +14,19 @@ app.config([
         //For the /home requests, route it to a custom template, and use MainCtrl controller
         $stateProvider.state('search', {url:'/search', templateUrl:'/search.html', controller:'SearchCtrl'});
 
-        //Now route to the profile page
+        //Angular route to the profile page
         $stateProvider.state('profile', {url:'/profile/{id}', templateUrl:'/profile.html', controller:'ProfileCtrl'});
+
+        //Route to the comments page
+        $stateProvider.state('comments', {url:'/skill/employeeId/skillId',
+            templateUrl:'/comments.html',
+            controller:'CommentCtrl',
+            resolve: {
+                employeeId: ['$stateParams', function($stateParams){
+                    return $stateParams.employeeId;
+                }]
+            }
+        });
 
         //For everything else, route to home, for now
         $urlRouterProvider.otherwise('search');
@@ -62,8 +73,6 @@ app.controller('ProfileCtrl', [
     '$stateParams',
     'employees', //here we give the controller the factory
     function($scope, $stateParams, employees){
-        $scope.test = 'Hello world!';
-
         $scope.employee = employees.employees[$stateParams.id];
 
         $scope.addSkill = function(){
@@ -74,8 +83,31 @@ app.controller('ProfileCtrl', [
             $scope.link = "";
         }
 
-        $scope.incrementUpvotes = function(post){
+        $scope.incrementUpvotes = function(){
             $scope.employee.skills.upvotes += 1;
         }
-    }]);
+}]);
 
+//define a controller for our posts
+app.controller('CommentCtrl', [
+    '$scope',
+    '$stateParams',
+    'employees',
+    function($scope, $stateParams, employees){
+
+        $scope.addComment = function(){
+            if($scope.body === '') {return;}
+
+            //First, get the relevant post
+            $scope.employee = employees.employees[$stateParams.employeeId];
+            console.log($stateParams.employeeId);
+
+            $scope.skillDetail = employees.employees[$stateParams.employeeId].skills[$stateParams.skillId];
+
+            //Then add a comments element into a comments array, on the post object
+            //A comment looks like this comments = [ {body:sometext, author:text, upvotes:0}]
+            $scope.skillDetail.comments.push( { body: $scope.body, author: 'user', upvotes: 0} );
+            $scope.body = "";
+        }
+    }
+]);

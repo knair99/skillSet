@@ -56,11 +56,10 @@
           </span>
         </span>
         <span>
-            <a href="#/skill/{{$index}}">Comments</a>
+            <a href="#/skill/{{employee.id}}/{{$index}}">Comments</a>
         </span>
     </div>
-    <form ng-submit="addSkill()"
-          style="margin-top:30px;">
+    <form ng-submit="addSkill()" style="margin-top:30px;">
         <h3>Add a new skill</h3>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Skill" ng-model="skill"></input>
@@ -71,6 +70,30 @@
         <button type="submit" class="btn btn-primary">Add skill</button>
     </form>
 </script>
+
+<!--comment routing-->
+<script type="text/ng-template" id="/comments.html">
+    <div class="page-header">
+        <a ng-show="skill.link" href="{{skillDetail.link}}">
+            {{skillDetail.skill}}
+        </a>
+      <span ng-hide="post.link">
+        {{skillDetail.skill}}
+      </span>
+    </div>
+    <div ng-repeat="comment in skill.comments | orderBy:'-upvotes'">
+        <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
+        {{comment.upvotes}} - by: {{comment.author}} said: "{{comment.body}}"
+    </div>
+    <form ng-submit="addComment()" style="margin-top:30px;">
+        <h3>Add a new comment</h3>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Comment" ng-model="body"></input>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+</script>
+
 
 </body>
 </html>
