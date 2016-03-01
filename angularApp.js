@@ -30,6 +30,26 @@ app.factory('employees', function(){
                 name: 'kk',
                 title: 'developer',
                 phone: '911'
+            },
+            {
+                name: 'shailesh',
+                title: 'manager',
+                phone: '911'
+            },
+            {
+                name: 'kk',
+                title: 'developer',
+                phone: '911'
+            },
+            {
+                name: 'shailesh',
+                title: 'manager',
+                phone: '911'
+            },
+            {
+                name: 'kk',
+                title: 'developer',
+                phone: '911'
             }
         ]
     };

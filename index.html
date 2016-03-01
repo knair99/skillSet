@@ -10,7 +10,7 @@
 
 <body ng-app="skill-search">
 <div class="row">
-    <div class="col-md-3 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3">
         <div ui-view></div>
     </div>
 </div>
@@ -29,11 +29,9 @@
         <br><br><br>
 
         <div ng-repeat="employee in employees" class="search_item">
-            <ul>
                     Name: {{employee.name}}<br>
                     Title: {{employee.title}}<br>
                     Phone: {{employee.phone}}<br>
-            </ul>
         </div>
     </form>
 </script>
