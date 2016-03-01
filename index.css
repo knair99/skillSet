@@ -1,0 +1,18 @@
+
+.search_results {
+    width: 900px;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.search_item {
+    background-color: white;
+    width: 300px;
+    padding: 25px;
+    border: 5px solid #428bca;
+    margin: 25px;
+}
+
+.span3 {
+    width: 220px;
+}

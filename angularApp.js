@@ -18,14 +18,33 @@ app.config([
     }
 ]);
 
+app.factory('employees', function(){
+    var o = {
+        employees: [
+            {
+            name: 'shailesh',
+            title: 'manager',
+            phone: '911'
+            },
+            {
+                name: 'kk',
+                title: 'developer',
+                phone: '911'
+            }
+        ]
+    };
+    return o;
+});
 //Now define our controller
 app.controller('SearchCtrl', [
     '$scope',
-    function($scope, posts){
+    'employees',
+    function($scope, employees){
 
         $scope.searchForSkills = function(){
-            if($scope.title === '') {return;}
+            if($scope.skill === '') {return;}
 
+            $scope.employees = employees.employees;
         }
 
     }]);
