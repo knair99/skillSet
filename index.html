@@ -27,14 +27,51 @@
         </div>
         <button type="submit" class="btn btn-primary">Search</button>
         <br><br><br>
-
-        <div ng-repeat="employee in employees" class="search_item">
+        <div ng-repeat="employee in employees">
+            <a href="/#/profile/{{employee.id}}">
+                <div class="search_item">
                     Name: {{employee.name}}<br>
                     Title: {{employee.title}}<br>
                     Phone: {{employee.phone}}<br>
+                </div>
+            </a>
         </div>
     </form>
 </script>
+
+<!--profile routing-->
+<script type="text/ng-template" id="/profile.html">
+    <div class="page-header">
+        <h1>Profile page</h1>
+    </div>
+    <div ng-repeat="skill in employee.skills | orderBy:'-upvotes'">
+        <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(post)"></span>
+                {{skill.upvotes}}
+        <span style="font-size:20px; margin-left:10px;">
+          <a ng-show="skill.link" href="{{skill.link}}">
+                {{skill.skill}}
+          </a>
+          <span ng-hide="skill.link">
+            {{skill.skill}}
+          </span>
+        </span>
+        <span>
+            <a href="#/skill/{{$index}}">Comments</a>
+        </span>
+    </div>
+    <form ng-submit="addSkill()"
+          style="margin-top:30px;">
+        <h3>Add a new skill</h3>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Skill" ng-model="skill"></input>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Link to github" ng-model="link"></input>
+        </div>
+        <button type="submit" class="btn btn-primary">Add skill</button>
+    </form>
+</script>
+
 </body>
 </html>
 
