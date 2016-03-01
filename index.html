@@ -81,7 +81,7 @@
         {{skillDetail.skill}}
       </span>
     </div>
-    <div ng-repeat="comment in skill.comments | orderBy:'-upvotes'">
+    <div ng-repeat="comment in skillDetail.comments | orderBy:'-upvotes'">
         <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
         {{comment.upvotes}} - by: {{comment.author}} said: "{{comment.body}}"
     </div>

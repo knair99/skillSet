@@ -18,14 +18,9 @@ app.config([
         $stateProvider.state('profile', {url:'/profile/{id}', templateUrl:'/profile.html', controller:'ProfileCtrl'});
 
         //Route to the comments page
-        $stateProvider.state('comments', {url:'/skill/employeeId/skillId',
+        $stateProvider.state('comments', {url:'/skill/:employeeId/:skillId',
             templateUrl:'/comments.html',
             controller:'CommentCtrl',
-            resolve: {
-                employeeId: ['$stateParams', function($stateParams){
-                    return $stateParams.employeeId;
-                }]
-            }
         });
 
         //For everything else, route to home, for now
