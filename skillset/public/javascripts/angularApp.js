@@ -12,15 +12,20 @@ app.config([
     '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider){
         //For the /home requests, route it to a custom template, and use MainCtrl controller
-        $stateProvider.state('search', {url:'/search', templateUrl:'/search.html', controller:'SearchCtrl'});
+        $stateProvider.state('search',
+        {
+            url:'/search',
+            templateUrl:'/search.html',
+            controller:'SearchCtrl'
+        });
 
         //Angular route to the profile page
         $stateProvider.state('profile', {url:'/profile/{id}', templateUrl:'/profile.html', controller:'ProfileCtrl'});
 
         //Route to the comments page
         $stateProvider.state('comments', {url:'/skill/:employeeId/:skillId',
-            templateUrl:'/comments.html',
-            controller:'CommentCtrl',
+                templateUrl:'/comments.html',
+                controller:'CommentCtrl'
         });
 
         //For everything else, route to home, for now
@@ -28,34 +33,28 @@ app.config([
     }
 ]);
 
-app.factory('employees', function(){
-    var o = {
-        employees: [
-            {
-                id: 0,
-                name: 'shailesh',
-                title: 'manager',
-                phone: '911',
-                skills: [{skill: 'C++', link: '', upvotes:0, comments:[]}]
-            },
-            {
-                id: 1,
-                name: 'kk',
-                title: 'developer',
-                phone: '911',
-                skills: [{skill: 'C++', link: '', upvotes:0, comments:[]}]
-            }
-        ]
+app.factory('employees', ['$http', function($http){
+    var o = { employees: [] };
+
+    o.getAll = function(){
+        console.log("executing http getAll");
+        return $http.get('/getData').success(function(data){ //This data is from the DB
+            console.log(data);
+            angular.copy(data, o.employees);
+        });
     };
+
     return o;
-});
-//Now define our controller
+}]);
+
+//Now define our controllers
 app.controller('SearchCtrl', [
     '$scope',
     'employees',
     function($scope, employees){
 
         $scope.searchForSkills = function(){
+            employees.getAll();
             if($scope.skill === '') {return;}
 
             $scope.employees = employees.employees;

@@ -16,3 +16,7 @@ CommentSchema.methods.upvote = function(cb) {
 };
 
 mongoose.model('Comments', CommentSchema);
+
+/*
+{ 'body':'this is a comment', 'author':'joe', 'upvotes':1, 'skill':{} }
+ */

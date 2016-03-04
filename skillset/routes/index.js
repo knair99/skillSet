@@ -12,7 +12,7 @@ router.param('profile', function(req, res, next, id){ //this gets the params in 
 
   query.exec(function(err, employee){
     if (err) {return next(err);}
-    if(!employee) { return next(new Error('cant find that post!')); }
+    if(!employee) { return next(new Error('cant find that employee!')); }
 
     req.employee = employee;
     return next(); //lets it call other routes
@@ -23,7 +23,7 @@ router.param('skill', function(req, res, next, id){ //this gets the params in th
 
   query.exec(function(err, skill){
     if (err) {return next(err);}
-    if(!skill) { return next(new Error('cant find that post!')); }
+    if(!skill) { return next(new Error('cant find that skill!')); }
 
     req.skill = skill;
     return next(); //lets it call other routes
@@ -44,15 +44,13 @@ router.param('comment', function(req, res, next, id){ //gets the params in the h
   });
 });
 
-
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Skills' });
 });
 
 //Get search results
-router.get('/search', function(req, res, next) {
+router.get('/getData', function(req, res, next) {
   Employees.find(function(err, employees){
     if(err){ return next(err); }
 
@@ -70,7 +68,7 @@ router.get('/profile/:employee', function(req, res) {
 router.post('/profile/:employee', function(req, res, next) {
   var skill = new Skills(req.body);
 
-  skill.save(function(err, post){
+  skill.save(function(err, skill){
     if(err){ return next(err); }
 
     res.json(skill);
@@ -78,28 +76,21 @@ router.post('/profile/:employee', function(req, res, next) {
 });
 
 //Post a new comment
-router.post('/profile/:employee/:skill/', function(req, res, next) {
-  var comment = new Comment(req.body);
-  comment.skill = req.skill; //We have this thanks to the preprocessing param function
-  comment.author = req.payload.username; //Now, we can actually add username to everything
-
+router.post('/profile/:employee/skill/:skill/', function(req, res, next) {
+  var comment = new Comments(req.body);
+  console.log(req.body);
+ //comment.author = req.payload.username; //Now, we can actually add username to everything
+  console.log(comment);
   comment.save(function(err, comment){
     if(err) { return next(err); }
-
-    //Else, go ahead and save the comment to the post too
-    req.skill.comments.push(comment);
-    req.skill.save(function(err, post){
-      if(err) { return next(err); }
-
-      res.json(comment);
-    });
   });
+  res.json(comment);
 
 });
 
 
 //Upvote a skill
-router.put('/profile/:employee/:skill/upvote', function(req, res, next) {
+router.put('/profile/:employee/skill/:skill/upvote', function(req, res, next) {
   req.skill.upvote(function(err, skill){
     if (err) { return next(err); }
     res.json(skill);
@@ -108,13 +99,14 @@ router.put('/profile/:employee/:skill/upvote', function(req, res, next) {
 
 
 //Upvote a comment
-router.put('/profile/:employee/:skill/comments/:comment/upvote', function(req, res, next) {
+router.put('/profile/:employee/skill/:skill/comments/:comment/upvote', function(req, res, next) {
+
   req.comment.upvote(function(err, comment){
+
     if (err) { return next(err); }
     res.json(comment);
   });
 });
-
 
 
 module.exports = router;
