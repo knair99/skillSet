@@ -20,7 +20,17 @@ app.config([
         });
 
         //Angular route to the profile page
-        $stateProvider.state('profile', {url:'/profile/{id}', templateUrl:'/profile.html', controller:'ProfileCtrl'});
+        $stateProvider.state('profile',
+        {
+            url: '/profile/{id}',
+            templateUrl: '/profile.html',
+            controller: 'ProfileCtrl',
+            resolve: {
+                employee: ['$stateParams', 'employees', function ($stateParams, employees) {
+                    return employees.get($stateParams.id);
+                }]
+            }
+        });
 
         //Route to the comments page
         $stateProvider.state('comments', {url:'/skill/:employeeId/:skillId',
@@ -36,6 +46,7 @@ app.config([
 app.factory('employees', ['$http', function($http){
     var o = { employees: [] };
 
+    //Search - null search = all employees - filter later
     o.getAll = function(){
         console.log("executing http getAll");
         return $http.get('/getData').success(function(data){ //This data is from the DB
@@ -43,6 +54,21 @@ app.factory('employees', ['$http', function($http){
             angular.copy(data, o.employees);
         });
     };
+
+    //Get one employee's skills
+    o.get = function(id){
+        return $http.get('/profile/' + id).then(function(res){ //using a promise here with 'then'
+            return res.data;
+        });
+    }
+
+    //Post one skill
+    o.create = function(skill, id){
+        return $http.post('/profile/' + id, skill).success(function(data){
+            o.employees[id].skills.push(data);
+            //This is for just our front end so it doesn't always go back to the server
+        });
+    }
 
     return o;
 }]);
@@ -72,7 +98,8 @@ app.controller('ProfileCtrl', [
         $scope.addSkill = function(){
             if($scope.skill === '') {return;}
 
-            $scope.employee.skills.push( { skill: $scope.skill, link: $scope.link, upvotes: 0, comments:[]});
+            employees.create({skill: $scope.skill, link: $scope.link}, $stateParams.id);
+
             $scope.skill = "";
             $scope.link = "";
         }

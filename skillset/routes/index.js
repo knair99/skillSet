@@ -8,8 +8,9 @@ var Comments = mongoose.model('Comments');
 
 //Preprocessors
 router.param('profile', function(req, res, next, id){ //this gets the params in the http request for all post
-  var query = Employees.findById(id);
+  console.log("here!");
 
+  var query = Employees.findById(id);
   query.exec(function(err, employee){
     if (err) {return next(err);}
     if(!employee) { return next(new Error('cant find that employee!')); }
@@ -60,13 +61,22 @@ router.get('/getData', function(req, res, next) {
 
 
 //Get one employee page - display all skills
-router.get('/profile/:employee', function(req, res) {
-  res.json(req.employee);
+router.get('/profile/:employee', function(req, res){
+
+  req.employee.populate('skills', function(err, employee) {
+    if (err) {
+      return next(err);
+    }
+
+    res.json(req.employee);
+  })
 });
 
 //Post a new skill
 router.post('/profile/:employee', function(req, res, next) {
   var skill = new Skills(req.body);
+
+  skill.employee = req.employee;
 
   skill.save(function(err, skill){
     if(err){ return next(err); }
