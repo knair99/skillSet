@@ -7,8 +7,7 @@ var Comments = mongoose.model('Comments');
 
 
 //Preprocessors
-router.param('profile', function(req, res, next, id){ //this gets the params in the http request for all post
-  console.log("here!");
+router.param('employee', function(req, res, next, id){ //this gets the params in the http request for all post
 
   var query = Employees.findById(id);
   query.exec(function(err, employee){
@@ -30,7 +29,6 @@ router.param('skill', function(req, res, next, id){ //this gets the params in th
     return next(); //lets it call other routes
   });
 });
-
 router.param('comment', function(req, res, next, id){ //gets the params in the http request for all comment by id
   var query = Comments.findById(id);
 
@@ -75,22 +73,25 @@ router.get('/profile/:employee', function(req, res){
 //Post a new skill
 router.post('/profile/:employee', function(req, res, next) {
   var skill = new Skills(req.body);
+  console.log("body stuff");
+  console.log(req.body);
 
+  console.log("skill now");
   skill.employee = req.employee;
+  console.log(skill);
+
 
   skill.save(function(err, skill){
     if(err){ return next(err); }
-
-    res.json(skill);
   });
+
+  res.json(skill);
 });
 
 //Post a new comment
 router.post('/profile/:employee/skill/:skill/', function(req, res, next) {
   var comment = new Comments(req.body);
-  console.log(req.body);
  //comment.author = req.payload.username; //Now, we can actually add username to everything
-  console.log(comment);
   comment.save(function(err, comment){
     if(err) { return next(err); }
   });

@@ -48,9 +48,7 @@ app.factory('employees', ['$http', function($http){
 
     //Search - null search = all employees - filter later
     o.getAll = function(){
-        console.log("executing http getAll");
         return $http.get('/getData').success(function(data){ //This data is from the DB
-            console.log(data);
             angular.copy(data, o.employees);
         });
     };
@@ -65,7 +63,8 @@ app.factory('employees', ['$http', function($http){
     //Post one skill
     o.create = function(skill, id){
         return $http.post('/profile/' + id, skill).success(function(data){
-            o.employees[id].skills.push(data);
+            console.log(o.employees);
+            o.employees[0].skills.push(data);
             //This is for just our front end so it doesn't always go back to the server
         });
     }
