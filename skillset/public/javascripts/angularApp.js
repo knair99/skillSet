@@ -96,7 +96,9 @@ app.controller('ProfileCtrl', [
     'employees', //here we give the controller the factory
     'employee',
     function($scope, $stateParams, employees, employee){
-        $scope.employee = employees.employees[$stateParams.id];
+        $scope.employee = employee;
+        console.log("scoped employee is");
+        console.log($scope.employee);
 
         $scope.addSkill = function(){
             if($scope.skill === '') {return;}
