@@ -1,0 +1,3 @@
+it was indeed the stale data that stopped skill addition
+
+create newer data and now fix the problem from the front end. no more internal error
