@@ -8,7 +8,6 @@ var Comments = mongoose.model('Comments');
 
 //Preprocessors
 router.param('employee', function(req, res, next, id){ //this gets the params in the http request for all post
-
   var query = Employees.findById(id);
   query.exec(function(err, employee){
     if (err) {return next(err);}
@@ -20,7 +19,6 @@ router.param('employee', function(req, res, next, id){ //this gets the params in
 });
 router.param('skill', function(req, res, next, id){ //this gets the params in the http request for all post
   var query = Skills.findById(id);
-
   query.exec(function(err, skill){
     if (err) {return next(err);}
     if(!skill) { return next(new Error('cant find that skill!')); }
@@ -31,11 +29,9 @@ router.param('skill', function(req, res, next, id){ //this gets the params in th
 });
 router.param('comment', function(req, res, next, id){ //gets the params in the http request for all comment by id
   var query = Comments.findById(id);
-
   query.exec(function(err, comment){
     if (err) {return next(err);}
     if(!comment) { return next(new Error('cant find that comment!')); }
-
     //now save it as part of the request, so other routing that has 'post' in the
     //parameter can find the approp post (got from the DB)
     req.comment = comment;
@@ -43,6 +39,7 @@ router.param('comment', function(req, res, next, id){ //gets the params in the h
   });
 });
 
+//User actions, HTTP verbs, REST routing, etc
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Skills' });
@@ -56,7 +53,6 @@ router.get('/getData', function(req, res, next) {
     res.json(employees);
   });
 });
-
 
 //Get one employee page - display all skills
 router.get('/profile/:employee', function(req, res){

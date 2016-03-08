@@ -1,3 +1,10 @@
-it was indeed the stale data that stopped skill addition
-
-create newer data and now fix the problem from the front end. no more internal error
+. wrap up comments - PUT, POST, GET - upvoting
+. skill - PUT, POST, GET - upvoting
+. custom query - by skill reverse index
+. user login - models, routing, angular routes/factories, local store, HTML
+. Auth basics - I, II, III, IV, V
+. CMS - Add employees manually through webform - users.js
+. search filters - location, availability
+. push updates - sockets.io
+. profile picture collection
+. data import - linkedin, python scraper, scrape internals, etc
