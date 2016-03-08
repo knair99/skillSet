@@ -66,6 +66,9 @@ router.get('/profile/:employee', function(req, res){
       return next(err);
     }
 
+    console.log("After populating with skills");
+    console.log(req.employee);
+
     res.json(req.employee);
   })
 });

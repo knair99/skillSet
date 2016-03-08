@@ -56,6 +56,8 @@ app.factory('employees', ['$http', function($http){
     //Get one employee's skills
     o.get = function(id){
         return $http.get('/profile/' + id).then(function(res){ //using a promise here with 'then'
+            console.log("This is res.data");
+            console.log(res.data);
             return res.data;
         });
     }
