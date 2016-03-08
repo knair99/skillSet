@@ -76,19 +76,30 @@ router.get('/profile/:employee', function(req, res){
 //Post a new skill
 router.post('/profile/:employee', function(req, res, next) {
   var skill = new Skills(req.body);
-  console.log("body stuff");
-  console.log(req.body);
 
   console.log("skill now");
   skill.employee = req.employee;
   console.log(skill);
 
 
-  skill.save(function(err, skill){
-    if(err){ return next(err); }
+  skill.save(function(err, skill) {
+    if (err) {
+      return next(err);
+    }
+
+    req.employee.skills.push(skill);
+    console.log("pushed skill and now employee is: ");
+    console.log(req.employee);
+
+    req.employee.save(function (err, employee) {
+      if (err) {
+        console.log('error man');
+        return next(err);
+      }
+      res.json(skill);
+    });
   });
 
-  res.json(skill);
 });
 
 //Post a new comment
