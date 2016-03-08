@@ -27,6 +27,7 @@ app.config([
             controller: 'ProfileCtrl',
             resolve: {
                 employee: ['$stateParams', 'employees', function ($stateParams, employees) {
+                    console.log("resolving profile get");
                     return employees.get($stateParams.id);
                 }]
             }
@@ -66,7 +67,7 @@ app.factory('employees', ['$http', function($http){
     o.create = function(skill, id){
         return $http.post('/profile/' + id, skill).success(function(data){
             console.log(o.employees);
-            o.employees[0].skills.push(data);
+            o.employees[1].skills.push(data);
             //This is for just our front end so it doesn't always go back to the server
         });
     }
@@ -93,13 +94,18 @@ app.controller('ProfileCtrl', [
     '$scope',
     '$stateParams',
     'employees', //here we give the controller the factory
-    function($scope, $stateParams, employees){
+    'employee',
+    function($scope, $stateParams, employees, employee){
         $scope.employee = employees.employees[$stateParams.id];
 
         $scope.addSkill = function(){
             if($scope.skill === '') {return;}
 
-            employees.create({skill: $scope.skill, link: $scope.link}, $stateParams.id);
+            employees.create({skill: $scope.skill, link: $scope.link}, $stateParams.id)
+                .success(function(skill) {
+                console.log(skill);
+                $scope.employee.skills.push(skill);
+            });
 
             $scope.skill = "";
             $scope.link = "";
