@@ -27,7 +27,6 @@ app.config([
             controller: 'ProfileCtrl',
             resolve: {
                 employee: ['$stateParams', 'employees', function ($stateParams, employees) {
-                    console.log("resolving profile get");
                     return employees.get($stateParams.id);
                 }]
             }
@@ -57,8 +56,6 @@ app.factory('employees', ['$http', function($http){
     //Get one employee's skills
     o.get = function(id){
         return $http.get('/profile/' + id).then(function(res){ //using a promise here with 'then'
-            console.log("This is res.data");
-            console.log(res.data);
             return res.data;
         });
     }
@@ -66,8 +63,7 @@ app.factory('employees', ['$http', function($http){
     //Post one skill
     o.create = function(skill, id){
         return $http.post('/profile/' + id, skill).success(function(data){
-            console.log(o.employees);
-            o.employees[1].skills.push(data);
+            o.employees[1].skills.push(data); //todo: FIX THIS
             //This is for just our front end so it doesn't always go back to the server
         });
     }
@@ -97,18 +93,16 @@ app.controller('ProfileCtrl', [
     'employee',
     function($scope, $stateParams, employees, employee){
         $scope.employee = employee;
-        console.log("scoped employee is");
-        console.log($scope.employee);
+
 
         $scope.addSkill = function(){
             if($scope.skill === '') {return;}
 
             employees.create({skill: $scope.skill, link: $scope.link}, $stateParams.id)
                 .success(function(skill) {
-                console.log(skill);
                 $scope.employee.skills.push(skill);
             });
-
+            //Blank out scope data for the next time
             $scope.skill = "";
             $scope.link = "";
         }

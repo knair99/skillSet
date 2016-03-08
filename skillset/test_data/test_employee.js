@@ -17,3 +17,9 @@ employees: [
         skills:} [{skill: 'C++', link: '', upvotes:0, comments:[]}]
     }
 ]
+
+
+db.employees.update( {"_id" : ObjectId("56d6f0c563b2fdda16e3f005")},
+    {"id": 0, "name": "kk", "title": "developer",
+    "phone":"911", "skills": [] }
+)
