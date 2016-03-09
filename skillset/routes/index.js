@@ -71,7 +71,6 @@ router.get('/profile/:employee', function(req, res){
 
 //Get one skill's comment page - display all comments
 router.get('/profile/:employee/skill/:skill', function(req, res){
-  console.log("Getting skill");
   req.skill.populate('comments', function(err, skill) {
     if (err) {
       return next(err);
@@ -105,10 +104,6 @@ router.post('/profile/:employee', function(req, res, next) {
 router.post('/profile/:employee/skill/:skill/', function(req, res, next) {
   var comment = new Comments(req.body);
 
-  console.log("req body for comments")
-  console.log(req.body);
-  console.log(comment);
-
   //Cross ref to skill
   comment.skill = req.skill;
 
@@ -138,10 +133,8 @@ router.put('/profile/:employee/skill/:skill/upvote', function(req, res, next) {
 
 
 //Upvote a comment
-router.put('/profile/:employee/skill/:skill/comments/:comment/upvote', function(req, res, next) {
-
+router.put('/profile/:employee/skill/:skill/comment/:comment/upvote', function(req, res, next) {
   req.comment.upvote(function(err, comment){
-
     if (err) { return next(err); }
     res.json(comment);
   });

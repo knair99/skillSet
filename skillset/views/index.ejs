@@ -57,7 +57,7 @@
           </span>
         </span>
         <span>
-            <a href="#/profile/{{employee._id}}/skill/{{skill._id}}">Comments</a>
+            <a href="#/profile/{{employee._id}}/skill/{{skill._id}}">Endorse</a>
         </span>
   </div>
   <form ng-submit="addSkill()" style="margin-top:30px;">
@@ -87,9 +87,9 @@
     {{comment.upvotes}} - by: {{comment.author}} said: "{{comment.body}}"
   </div>
   <form ng-submit="addComment()" style="margin-top:30px;">
-    <h3>Add a new comment</h3>
+    <h3>Add an endorsement</h3>
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="Comment" ng-model="body"></input>
+      <input type="text" class="form-control" placeholder="Comment..." ng-model="body"></input>
     </div>
     <button type="submit" class="btn btn-primary">Post</button>
   </form>

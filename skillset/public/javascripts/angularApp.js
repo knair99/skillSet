@@ -86,9 +86,7 @@ app.factory('employees', ['$http', function($http){
     //Post one comment
     o.postComment = function(comment, emp_id, skill_id){ //both these are mongo IDs
         return $http.post('/profile/'+ emp_id + '/skill/' + skill_id, comment).success(function(data){
-            //push comment response to front end
-            console.log("successfully returned comment ->");
-            console.log(data);
+            //TODO: update
         });
     }
 
@@ -97,6 +95,15 @@ app.factory('employees', ['$http', function($http){
         $http.put('/profile/' + emp_id +'/skill/' + skill_id + '/upvote', null).success(function(data){
             //and for the front end
             skill.upvotes += 1;
+        });
+    }
+
+    //Upvote a comment
+    o.upvoteComment = function(emp_id, skill_id, comment){
+        $http.put('/profile/' + emp_id +'/skill/' + skill_id + '/comment/' + comment._id +'/upvote', null)
+            .success(function(data){
+                //and for the front end
+                comment.upvotes += 1;
         });
     }
 
@@ -161,16 +168,18 @@ app.controller('CommentCtrl', [
         $scope.addComment = function(){
             if($scope.body === '') { return;}
             //Now post the comment
-            employees.postComment({ body: $scope.body, author: 'user', upvotes: 0}, employee._id, $stateParams.skillId);
+            employees.postComment({ body: $scope.body, author: 'user', upvotes: 0}, employee._id, $stateParams.skillId)
+                .success(function(comment){
+                    $scope.skillDetail.comments.push(comment);
+                });
 
             //Then add a comments element into a comments array, on the skill object
             //A comment looks like this comments = [ {body:sometext, author:text, upvotes:0}]
-            $scope.skillDetail.comments.push( { body: $scope.body, author: 'user', upvotes: 0} );
             $scope.body = "";
         }
 
         $scope.incrementComment = function(comment){
-            comment.upvotes += 1;
+            employees.upvoteComment(employee._id, skill._id, comment);
         }
     }
 ]);
