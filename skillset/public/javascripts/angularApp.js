@@ -92,6 +92,16 @@ app.factory('employees', ['$http', function($http){
         });
     }
 
+    //Upvote a skill
+    o.upvoteSkill = function(emp_id, skill_id, skill){
+        $http.put('/profile/' + emp_id +'/skill/' + skill_id + '/upvote', null).success(function(data){
+            //and for the front end
+            skill.upvotes += 1;
+        });
+    }
+
+
+    //Finally return the object
     return o;
 }]);
 
@@ -118,7 +128,6 @@ app.controller('ProfileCtrl', [
     function($scope, $stateParams, employees, employee){
         $scope.employee = employee;
 
-
         $scope.addSkill = function(){
             if($scope.skill === '') {return;}
 
@@ -131,8 +140,8 @@ app.controller('ProfileCtrl', [
             $scope.link = "";
         }
 
-        $scope.incrementUpvotes = function(skill){
-            skill.upvotes += 1;
+        $scope.incrementSkill = function(skill){
+            employees.upvoteSkill(employee._id, skill._id, skill);
         }
 }]);
 
@@ -160,7 +169,7 @@ app.controller('CommentCtrl', [
             $scope.body = "";
         }
 
-        $scope.incrementUpvotes = function(comment){
+        $scope.incrementComment = function(comment){
             comment.upvotes += 1;
         }
     }

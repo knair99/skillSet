@@ -46,7 +46,7 @@
     <h1>Profile page</h1>
   </div>
   <div ng-repeat="skill in employee.skills | orderBy:'-upvotes'">
-    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(skill)"></span>
+    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementSkill(skill)"></span>
     {{skill.upvotes}}
         <span style="font-size:20px; margin-left:10px;">
           <a ng-show="skill.link" href="{{skill.link}}">
@@ -83,7 +83,7 @@
       </span>
   </div>
   <div ng-repeat="comment in skillDetail.comments | orderBy:'-upvotes'">
-    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
+    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementComment(comment)"></span>
     {{comment.upvotes}} - by: {{comment.author}} said: "{{comment.body}}"
   </div>
   <form ng-submit="addComment()" style="margin-top:30px;">
