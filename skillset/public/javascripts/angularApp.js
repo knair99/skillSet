@@ -85,7 +85,7 @@ app.factory('employees', ['$http', function($http){
 
     //Post one comment
     o.postComment = function(comment, emp_id, skill_id){ //both these are mongo IDs
-        return $http.post('/profile/'+ emp_id + '/skill/' + skill_id).success(function(data){
+        return $http.post('/profile/'+ emp_id + '/skill/' + skill_id, comment).success(function(data){
             //push comment response to front end
             console.log("successfully returned comment ->");
             console.log(data);
@@ -147,16 +147,11 @@ app.controller('CommentCtrl', [
         //First, get the relevant skill - promise?
         $scope.employee = employee;
         $scope.skillDetail = skill;
+        $scope.skills = employee.skills;
 
         $scope.addComment = function(){
-            if($scope.body === '') { console.log("empty"); return;}
-
-
-            $scope.skills = employee.skills;
-            console.log("Got the skill - " + $scope.skillDetail);
-
+            if($scope.body === '') { return;}
             //Now post the comment
-            console.log('comment body' + $scope.body);
             employees.postComment({ body: $scope.body, author: 'user', upvotes: 0}, employee._id, $stateParams.skillId);
 
             //Then add a comments element into a comments array, on the skill object
