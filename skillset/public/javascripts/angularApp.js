@@ -46,12 +46,91 @@ app.config([
             }
         });
 
+        $stateProvider.state('login', {
+            url: '/login',
+            templateUrl: '/login.html',
+            controller: 'AuthCtrl',
+            onEnter: ['$state', 'auth', function($state, auth){
+                if(auth.isLoggedIn()){
+                    $state.go('search');
+                }
+            }]
+        })
+        $stateProvider.state('register', {
+            url: '/register',
+            templateUrl: '/register.html',
+            controller: 'AuthCtrl',
+            onEnter: ['$state', 'auth', function($state, auth){
+                if(auth.isLoggedIn()){
+                    $state.go('search');
+                }
+            }]
+        });
+
         //For everything else, route to home, for now
         $urlRouterProvider.otherwise('search');
     }
 ]);
 
-app.factory('employees', ['$http', function($http){
+
+
+//////////////////////////////////////////////////FACTORIES/////////////////////////////////////
+//Factory for authentication
+app.factory('auth', ['$http', '$window', function($http, $window){
+    var auth = {};
+
+    //Leverage local storage
+    auth.saveToken = function (token){
+        $window.localStorage['skillset-site-token'] = token;
+    };
+    auth.getToken = function (){
+        return $window.localStorage['skillset-site-token'];
+    }
+
+    //Find out if user is logged in or not
+    auth.isLoggedIn = function(){
+        var token = auth.getToken();
+
+        if(token){
+            var payload = JSON.parse($window.atob(token.split('.')[1]));
+            return payload.exp > Date.now() / 1000;
+        } else {
+            return false;
+        }
+    };
+
+    //Get the current user of this site
+    auth.currentUser = function(){
+        if(auth.isLoggedIn()){
+            var token = auth.getToken();
+            var payload = JSON.parse($window.atob(token.split('.')[1]));
+            return payload.username;
+        }
+    };
+
+    //Create the registration function
+    auth.register = function(user){
+        return $http.post('/register', user).success(function(data){
+            auth.saveToken(data.token);
+        });
+    };
+
+    //Create the login function
+    auth.logIn = function(user){
+        return $http.post('/login', user).success(function(data){
+            auth.saveToken(data.token);
+        });
+    };
+
+    //Create logouts
+    auth.logOut = function(){
+        $window.localStorage.removeItem('skillset-site-token');
+    };
+
+    return auth;
+}])
+
+app.factory('employees', ['$http', 'auth', function($http, auth){
     var o = { employees: [] };
 
     //Search - null search = all employees - filter later
@@ -77,7 +156,9 @@ app.factory('employees', ['$http', function($http){
 
     //Post one skill
     o.postSkill = function(skill, emp_id, id){
-        return $http.post('/profile/' + emp_id, skill).success(function(data){
+        return $http.post('/profile/' + emp_id, skill, {
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).success(function(data){
             o.employees[id].skills.push(data); //TODO: Test this
             //This is for just our front end so it doesn't always go back to the server
         });
@@ -85,14 +166,18 @@ app.factory('employees', ['$http', function($http){
 
     //Post one comment
     o.postComment = function(comment, emp_id, skill_id){ //both these are mongo IDs
-        return $http.post('/profile/'+ emp_id + '/skill/' + skill_id, comment).success(function(data){
+        return $http.post('/profile/'+ emp_id + '/skill/' + skill_id, comment, {
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).success(function(data){
             //TODO: update
         });
     }
 
     //Upvote a skill
     o.upvoteSkill = function(emp_id, skill_id, skill){
-        $http.put('/profile/' + emp_id +'/skill/' + skill_id + '/upvote', null).success(function(data){
+        $http.put('/profile/' + emp_id +'/skill/' + skill_id + '/upvote', null, {
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).success(function(data){
             //and for the front end
             skill.upvotes += 1;
         });
@@ -100,8 +185,9 @@ app.factory('employees', ['$http', function($http){
 
     //Upvote a comment
     o.upvoteComment = function(emp_id, skill_id, comment){
-        $http.put('/profile/' + emp_id +'/skill/' + skill_id + '/comment/' + comment._id +'/upvote', null)
-            .success(function(data){
+        $http.put('/profile/' + emp_id +'/skill/' + skill_id + '/comment/' + comment._id +'/upvote', null, {
+                headers: {Authorization: 'Bearer '+auth.getToken()}
+            }).success(function(data){
                 //and for the front end
                 comment.upvotes += 1;
         });
@@ -112,7 +198,45 @@ app.factory('employees', ['$http', function($http){
     return o;
 }]);
 
+
 //Now define our controllers
+//////////////////////////////////////////////////CONTROLLERS/////////////////////////////////////
+//define a controller for authentication
+app.controller('AuthCtrl', [
+    '$scope',
+    '$state',
+    'auth',
+    function($scope, $state, auth){
+        $scope.user = {};
+
+        $scope.register = function(){
+            auth.register($scope.user).error(function(error){
+                $scope.error = error;
+            }).then(function(){
+                $state.go('search');
+            });
+        };
+
+        $scope.logIn = function(){
+            auth.logIn($scope.user).error(function(error){
+                $scope.error = error;
+            }).then(function(){
+                $state.go('search');
+            });
+        };
+    }
+]);
+
+//define a controller for navigation
+app.controller('NavCtrl', [
+    '$scope',
+    'auth',
+    function($scope, auth){
+        $scope.isLoggedIn = auth.isLoggedIn;
+        $scope.currentUser = auth.currentUser;
+        $scope.logOut = auth.logOut;
+    }]);
+
 app.controller('SearchCtrl', [
     '$scope',
     'employees',
@@ -132,8 +256,12 @@ app.controller('ProfileCtrl', [
     '$stateParams',
     'employees', //here we give the controller the factory
     'employee',
-    function($scope, $stateParams, employees, employee){
+    'auth',
+    function($scope, $stateParams, employees, employee, auth){
         $scope.employee = employee;
+
+        $scope.isLoggedIn = auth.isLoggedIn;
+
 
         $scope.addSkill = function(){
             if($scope.skill === '') {return;}
@@ -159,8 +287,12 @@ app.controller('CommentCtrl', [
     'employees',
     'employee',
     'skill',
-    function($scope, $stateParams, employees, employee, skill){
+    'auth',
+    function($scope, $stateParams, employees, employee, skill, auth){
         //First, get the relevant skill - promise?
+
+        $scope.isLoggedIn = auth.isLoggedIn;
+
         $scope.employee = employee;
         $scope.skillDetail = skill;
         $scope.skills = employee.skills;

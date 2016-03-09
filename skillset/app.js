@@ -7,10 +7,16 @@ var bodyParser = require('body-parser');
 
 //Setup connection to mongoose
 var mongoose = require('mongoose');
+//Get passport
+var passport = require('passport');
+
 //Now get our schemas
 require('./models/Employees');
 require('./models/Skills');
 require('./models/Comments');
+require('./models/Users');
+require('./config/passport');
+
 //Connect to mongo
 mongoose.connect('mongodb://localhost/skillset');
 
@@ -31,6 +37,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//Init passport for authentication
+app.use(passport.initialize());
 
 app.use('/', routes);
 app.use('/users', users);

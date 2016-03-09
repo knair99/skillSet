@@ -9,6 +9,15 @@
 </head>
 
 <body ng-app="skill-search">
+<nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
+  <ul class="nav navbar-nav">
+    <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
+    <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
+    <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+    <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+  </ul>
+</nav>
+
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <div ui-view></div>
@@ -84,9 +93,14 @@
   </div>
   <div ng-repeat="comment in skillDetail.comments | orderBy:'-upvotes'">
     <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementComment(comment)"></span>
-    {{comment.upvotes}} - by: {{comment.author}} said: "{{comment.body}}"
+    <span ng-show="comment.author"> posted by <a>{{post.author}}</a> |
+</span>
+    {{comment.upvotes}} - {{comment.author}} said: "{{comment.body}}"
   </div>
-  <form ng-submit="addComment()" style="margin-top:30px;">
+  <form ng-submit="addComment()"   ng-show="isLoggedIn()" style="margin-top:30px;">
+    <div ng-hide="isLoggedIn()">
+      <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can comment.</h3>
+    </div>
     <h3>Add an endorsement</h3>
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Comment..." ng-model="body"></input>
@@ -95,6 +109,65 @@
   </form>
 </script>
 
+<!--registration routing-->
+<script type="text/ng-template" id="/register.html">
+  <div class="page-header">
+    <h1>Symantec skill search</h1>
+  </div>
+
+  <div ng-show="error" class="alert alert-danger row">
+    <span>{{ error.message }}</span>
+  </div>
+
+  <form ng-submit="register()"
+        style="margin-top:30px;">
+    <h3>Register</h3>
+
+    <div class="form-group">
+      <input type="text"
+             class="form-control"
+             placeholder="Username"
+             ng-model="user.username"></input>
+    </div>
+    <div class="form-group">
+      <input type="password"
+             class="form-control"
+             placeholder="Password"
+             ng-model="user.password"></input>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
+</script>
+
+<!--login routing-->
+<script type="text/ng-template" id="/login.html">
+  <div class="page-header">
+    <h1>Symantec skill search</h1>
+  </div>
+
+  <div ng-show="error" class="alert alert-danger row">
+    <span>{{ error.message }}</span>
+  </div>
+
+  <form ng-submit="logIn()"
+        style="margin-top:30px;">
+    <h3>Log In</h3>
+
+    <div class="form-group">
+      <input type="text"
+             class="form-control"
+             placeholder="Username"
+             ng-model="user.username"></input>
+    </div>
+    <div class="form-group">
+      <input type="password"
+             class="form-control"
+             placeholder="Password"
+             ng-model="user.password"></input>
+    </div>
+    <button type="submit" class="btn btn-primary">Log In</button>
+  </form>
+</script>
 
 </body>
 </html>
