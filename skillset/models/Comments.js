@@ -7,7 +7,7 @@ var CommentSchema = new mongoose.Schema({
     body: String,
     author: String,
     upvotes: {type: Number, default: 0},
-    skill: { type: mongoose.Schema.Types.ObjectId, ref: 'Skills' }
+    skill: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Skills' }]
 });
 
 CommentSchema.methods.upvote = function(cb) {

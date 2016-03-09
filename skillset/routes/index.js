@@ -6,7 +6,7 @@ var Skills = mongoose.model('Skills');
 var Comments = mongoose.model('Comments');
 
 
-//Preprocessors
+//Preprocessors - employee
 router.param('employee', function(req, res, next, id){ //this gets the params in the http request for all post
   var query = Employees.findById(id);
   query.exec(function(err, employee){
@@ -17,6 +17,8 @@ router.param('employee', function(req, res, next, id){ //this gets the params in
     return next(); //lets it call other routes
   });
 });
+
+//Preprocessors - skill
 router.param('skill', function(req, res, next, id){ //this gets the params in the http request for all post
   var query = Skills.findById(id);
   query.exec(function(err, skill){
@@ -27,6 +29,8 @@ router.param('skill', function(req, res, next, id){ //this gets the params in th
     return next(); //lets it call other routes
   });
 });
+
+//Preprocessors - comment
 router.param('comment', function(req, res, next, id){ //gets the params in the http request for all comment by id
   var query = Comments.findById(id);
   query.exec(function(err, comment){
@@ -65,6 +69,17 @@ router.get('/profile/:employee', function(req, res){
   })
 });
 
+//Get one skill's comment page - display all comments
+router.get('/profile/:employee/skill/:skill', function(req, res){
+  console.log("Getting skill");
+  req.skill.populate('comments', function(err, skill) {
+    if (err) {
+      return next(err);
+    }
+    res.json(req.skill);
+  })
+});
+
 //Post a new skill
 router.post('/profile/:employee', function(req, res, next) {
   var skill = new Skills(req.body);
@@ -89,11 +104,26 @@ router.post('/profile/:employee', function(req, res, next) {
 //Post a new comment
 router.post('/profile/:employee/skill/:skill/', function(req, res, next) {
   var comment = new Comments(req.body);
- //comment.author = req.payload.username; //Now, we can actually add username to everything
+
+  console.log("req body for comments")
+  console.log(req.body);
+  console.log(comment);
+
+  //Cross ref to skill
+  comment.skill = req.skill;
+
+  //Save the comment
   comment.save(function(err, comment){
     if(err) { return next(err); }
+
+    //Update skill with new comment
+    req.skill.comments.push(comment);
+    req.skill.save(function(err, skill){
+      if(err) { return next(err); }
+      //Else respond back with json
+      res.json(comment);
+    });
   });
-  res.json(comment);
 
 });
 

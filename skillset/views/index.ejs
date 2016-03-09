@@ -57,7 +57,7 @@
           </span>
         </span>
         <span>
-            <a href="#/skill/{{employee.id}}/{{$index}}">Comments</a>
+            <a href="#/profile/{{employee._id}}/skill/{{skill._id}}">Comments</a>
         </span>
   </div>
   <form ng-submit="addSkill()" style="margin-top:30px;">
@@ -75,14 +75,14 @@
 <!--comment routing-->
 <script type="text/ng-template" id="/comments.html">
   <div class="page-header">
-    <a ng-show="skill.link" href="{{skillDetail.link}}">
-      {{skillDetail.skill}}
+    <a ng-show="skill.link" href="{{skills.link}}">
+      {{skills.skill}}
     </a>
       <span ng-hide="post.link">
-        {{skillDetail.skill}}
+        {{skills.skill}}
       </span>
   </div>
-  <div ng-repeat="comment in skillDetail.comments | orderBy:'-upvotes'">
+  <div ng-repeat="comment in skills.comments | orderBy:'-upvotes'">
     <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
     {{comment.upvotes}} - by: {{comment.author}} said: "{{comment.body}}"
   </div>

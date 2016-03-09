@@ -33,9 +33,17 @@ app.config([
         });
 
         //Route to the comments page
-        $stateProvider.state('comments', {url:'/skill/:employeeId/:skillId',
+        $stateProvider.state('comments', {url:'/profile/:employeeId/skill/:skillId',
                 templateUrl:'/comments.html',
-                controller:'CommentCtrl'
+                controller:'CommentCtrl',
+            resolve: {
+                employee: ['$stateParams', 'employees', function ($stateParams, employees) {
+                    return employees.get($stateParams.employeeId);
+                }],
+                skill: ['$stateParams', 'employees', function ($stateParams, employees) {
+                    return employees.getSkill($stateParams.employeeId, $stateParams.skillId);
+                }]
+            }
         });
 
         //For everything else, route to home, for now
@@ -60,11 +68,27 @@ app.factory('employees', ['$http', function($http){
         });
     }
 
+    //Get one skill's comments
+    o.getSkill = function(emp_id, skill_id){
+        return $http.get('/profile/' + emp_id + '/skill/' + skill_id).then(function(res){
+            return res.data;
+        });
+    }
+
     //Post one skill
-    o.create = function(skill, id){
-        return $http.post('/profile/' + id, skill).success(function(data){
-            o.employees[1].skills.push(data); //todo: FIX THIS
+    o.postSkill = function(skill, emp_id, id){
+        return $http.post('/profile/' + emp_id, skill).success(function(data){
+            o.employees[id].skills.push(data); //TODO: Test this
             //This is for just our front end so it doesn't always go back to the server
+        });
+    }
+
+    //Post one comment
+    o.postComment = function(comment, emp_id, skill_id){ //both these are mongo IDs
+        return $http.post('/profile/'+ emp_id + '/skill/' + skill_id).success(function(data){
+            //push comment response to front end
+            console.log("successfully returned comment ->");
+            console.log(data);
         });
     }
 
@@ -98,7 +122,7 @@ app.controller('ProfileCtrl', [
         $scope.addSkill = function(){
             if($scope.skill === '') {return;}
 
-            employees.create({skill: $scope.skill, link: $scope.link}, $stateParams.id)
+            employees.postSkill({skill: $scope.skill, link: $scope.link}, $stateParams.id, employee.id)
                 .success(function(skill) {
                 $scope.employee.skills.push(skill);
             });
@@ -117,17 +141,25 @@ app.controller('CommentCtrl', [
     '$scope',
     '$stateParams',
     'employees',
-    function($scope, $stateParams, employees){
+    'employee',
+    'skill',
+    function($scope, $stateParams, employees, employee, skill){
+        //First, get the relevant skill - promise?
+        $scope.employee = employee;
+        $scope.skillDetail = skill;
 
         $scope.addComment = function(){
-            if($scope.body === '') {return;}
+            if($scope.body === '') { console.log("empty"); return;}
 
-            //First, get the relevant post
-            $scope.employee = employees.employees[$stateParams.employeeId];
 
-            $scope.skillDetail = employees.employees[$stateParams.employeeId].skills[$stateParams.skillId];
+            $scope.skills = employee.skills;
+            console.log("Got the skill - " + $scope.skillDetail);
 
-            //Then add a comments element into a comments array, on the post object
+            //Now post the comment
+            console.log('comment body' + $scope.body);
+            employees.postComment({ body: $scope.body, author: 'user', upvotes: 0}, employee._id, $stateParams.skillId);
+
+            //Then add a comments element into a comments array, on the skill object
             //A comment looks like this comments = [ {body:sometext, author:text, upvotes:0}]
             $scope.skillDetail.comments.push( { body: $scope.body, author: 'user', upvotes: 0} );
             $scope.body = "";

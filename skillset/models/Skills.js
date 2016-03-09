@@ -7,8 +7,8 @@ var SkillSchema = new mongoose.Schema({
     skill: String,
     link: String,
     upvotes: {type: Number, default: 0},
-    comments: { type: mongoose.Schema.Types.ObjectId, ref: 'Comments' },
-    employee: {type: mongoose.Schema.Types.ObjectId, ref:'Employees'}
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comments' }],
+    employee: [{type: mongoose.Schema.Types.ObjectId, ref:'Employees'}]
 });
 
 SkillSchema.methods.upvote = function(cb) {
