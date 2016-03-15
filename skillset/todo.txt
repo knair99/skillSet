@@ -1,7 +1,3 @@
-x. wrap up comments - PUT, POST, GET - upvoting
-x. skill - PUT, POST, GET - upvoting
-x. user login - models, routing, angular routes/factories, local store, HTML
-x. Auth basics - I, II, III, IV, V
 . custom query - by skill reverse index
 . CMS - Add employees manually through webform - users.js
 . search filters - location, availability
