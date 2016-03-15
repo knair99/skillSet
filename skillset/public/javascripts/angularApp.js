@@ -178,7 +178,7 @@ app.factory('employees', ['$http', 'auth', function($http, auth){
         $http.put('/profile/' + emp_id +'/skill/' + skill_id + '/upvote', null, {
             headers: {Authorization: 'Bearer '+auth.getToken()}
         }).success(function(data){
-            //and for the front end
+            //and for the front end`
             skill.upvotes += 1;
         });
     }

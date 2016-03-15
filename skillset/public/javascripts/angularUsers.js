@@ -9,10 +9,10 @@ app.factory('employees', ['$http', function($http){
     var o = { employee: [] };
 
     //This is for a POST of a new post
-    o.create = function(post){
-        return $http.post('/posts', post).success(function(data){
-            o.posts.push(data);
+    o.addEmpl = function(employee){
+        return $http.post('/users/add', employee).success(function(data){
             //This is for just our front end so it doesn't always go back to the server
+            o.employee.push(data);
         });
     }
 
@@ -21,11 +21,12 @@ app.factory('employees', ['$http', function($http){
 
 app.controller('UserAdd', [
     '$scope',
-    'employees'
+    'employees',
     function($scope, employees){
 
-        $scope.addEmployee() = function(){
-            console.log("In add emp");
+        $scope.addEmployee = function(){
+            employees.addEmpl({ name: $scope.name, skill: $scope.skill,
+                                phone: $scope.phone, id: $scope.id});
 
             alert("Employee totally added!");
         }

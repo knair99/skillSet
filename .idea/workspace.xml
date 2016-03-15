@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7ae11fbe-b286-4509-9a4e-735c0e98eecf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/skillset/public/javascripts/angularUsers.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/skillset/views/users.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/skillset/public/javascripts/angularApp.js" afterPath="$PROJECT_DIR$/skillset/public/javascripts/angularApp.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/skillset/public/javascripts/angularUsers.js" afterPath="$PROJECT_DIR$/skillset/public/javascripts/angularUsers.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/skillset/routes/users.js" afterPath="$PROJECT_DIR$/skillset/routes/users.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/skillset/views/users.ejs" afterPath="$PROJECT_DIR$/skillset/views/users.ejs" />
     </list>
     <ignored path="skillset.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,8 +40,8 @@
       <file leaf-file-name="users.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/skillset/views/users.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.565217">
-              <caret line="19" column="40" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="40" />
+            <state vertical-scroll-proportion="-18.869566">
+              <caret line="31" column="78" selection-start-line="31" selection-start-column="78" selection-end-line="31" selection-end-column="78" />
               <folding>
                 <element signature="n#style#0;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -48,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="angularUsers.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="angularUsers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/skillset/public/javascripts/angularUsers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21657458">
-              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
               <folding>
                 <element signature="e#0#41#0" expanded="false" />
               </folding>
@@ -60,11 +61,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="angularApp.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/skillset/public/javascripts/angularApp.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.60331494">
+              <caret line="180" column="36" selection-start-line="180" selection-start-column="36" selection-end-line="180" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/skillset/routes/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.692307">
-              <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
+            <state vertical-scroll-proportion="-16.153847">
+              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -111,13 +122,13 @@
         <option value="$PROJECT_DIR$/angularApp.js" />
         <option value="$PROJECT_DIR$/skillset/models/Users.js" />
         <option value="$PROJECT_DIR$/skillset/routes/index.js" />
-        <option value="$PROJECT_DIR$/skillset/public/javascripts/angularApp.js" />
         <option value="$PROJECT_DIR$/skillset/todo.txt" />
         <option value="$PROJECT_DIR$/skillset/test_data/test_employee.js" />
         <option value="$PROJECT_DIR$/skillset/views/index.ejs" />
-        <option value="$PROJECT_DIR$/skillset/routes/users.js" />
         <option value="$PROJECT_DIR$/skillset/views/users.ejs" />
+        <option value="$PROJECT_DIR$/skillset/routes/users.js" />
         <option value="$PROJECT_DIR$/skillset/public/javascripts/angularUsers.js" />
+        <option value="$PROJECT_DIR$/skillset/public/javascripts/angularApp.js" />
       </list>
     </option>
   </component>
@@ -750,26 +761,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/skillset/public/javascripts/angularApp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="127" column="6" selection-start-line="127" selection-start-column="6" selection-end-line="127" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/skillset/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/skillset/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.956522">
-          <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
           <folding />
         </state>
       </provider>
@@ -790,6 +785,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/skillset/views/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.956522">
+          <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/skillset/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -798,31 +801,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/skillset/routes/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.692307">
-          <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/skillset/views/users.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.565217">
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="40" />
+        <state vertical-scroll-proportion="-18.869566">
+          <caret line="31" column="78" selection-start-line="31" selection-start-column="78" selection-end-line="31" selection-end-column="78" />
           <folding>
             <element signature="n#style#0;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/skillset/routes/users.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.153847">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/skillset/public/javascripts/angularUsers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21657458">
-          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/skillset/public/javascripts/angularApp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.60331494">
+          <caret line="180" column="36" selection-start-line="180" selection-start-column="36" selection-end-line="180" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>

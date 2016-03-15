@@ -13,10 +13,9 @@ router.get('/', function(req, res, next) {
 });
 
 //Post an employee
-router.post('/posts', function(req, res, next){
-  var emp = new Employee(req.body);
-
-  console.log(req.body);
+router.post('/add', function(req, res, next){
+  console.log("in add backend");
+  var emp = new Employees(req.body);
 
   //Save into mongoDB
   emp.save(function(err, emp){
@@ -24,6 +23,7 @@ router.post('/posts', function(req, res, next){
 
     res.json(emp);
   });
+
 });
 
 
